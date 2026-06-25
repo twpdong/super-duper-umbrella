@@ -119,3 +119,19 @@ header.top p { color: var(--muted); margin: 0; font-size: 14px; }
   border-radius: 10px; padding: 12px 14px; font-size: 12.5px; color: var(--muted); margin-top: 14px;
 }
 .score-ring { font-size: 34px; font-weight: 800; color: var(--moderate); }
+
+/* ── Watch points (multi-point live risk) ── */
+.wp-actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 14px; }
+.wp-x {
+  float: right; background: transparent; border: none; color: var(--muted);
+  cursor: pointer; font-size: 14px; padding: 0 2px;
+}
+.wp-x:hover { color: var(--severe); }
+.wp-hazards { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; }
+.wp-form .wp-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.wp-form input, .wp-form select {
+  background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+  border-radius: 8px; padding: 8px 10px; font-size: 13px; flex: 1; min-width: 120px;
+}
+.wp-sectors { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.badge { cursor: default; }

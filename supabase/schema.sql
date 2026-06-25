@@ -50,13 +50,28 @@ create table if not exists forecasts (
 create table if not exists projects (
   id          bigserial primary key,
   name        text not null,
-  sectors     text[] not null,         -- {'agri','finance','energy','health'}
+  sectors     text[] not null,         -- {'agri','finance','logistics','realestate','energy','health'}
   lat         double precision,
   lon         double precision,
   region      text,
   notes       text,
   created_at  timestamptz not null default now()
 );
+
+-- จุดเฝ้าระวังหลายจุด (multi-point) ผูกกับโปรเจกต์ — DESIGN.md §4
+create table if not exists watch_points (
+  id          bigserial primary key,
+  project_id  bigint references projects(id) on delete cascade,
+  name        text not null,
+  lat         double precision not null,
+  lon         double precision not null,
+  radius_km   double precision default 25,
+  scope       text not null default 'thailand', -- 'thailand'|'sea'|'global'
+  sectors     text[] not null,
+  note        text,
+  created_at  timestamptz not null default now()
+);
+create index if not exists idx_watch_points_project on watch_points (project_id);
 
 -- คะแนนความเสี่ยงที่คำนวณรายโปรเจกต์/ช่วงเวลา
 create table if not exists risk_scores (
@@ -69,6 +84,17 @@ create table if not exists risk_scores (
   rationale   text,
   computed_at timestamptz not null default now()
 );
+
+-- log ดิบของทุกการดึงข้อมูล (ตรวจสอบย้อนหลัง/debug) — DESIGN.md §6.3
+create table if not exists sources_audit (
+  id          bigserial primary key,
+  source      text not null,
+  url         text,
+  status      text,                    -- 'ok'|'error'|'fallback'
+  payload     jsonb,
+  fetched_at  timestamptz not null default now()
+);
+create index if not exists idx_sources_audit_time on sources_audit (source, fetched_at desc);
 
 -- log การแจ้งเตือน
 create table if not exists alerts (

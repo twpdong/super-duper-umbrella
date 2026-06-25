@@ -9,6 +9,7 @@ import {
   RiskLevel,
 } from "@/lib/preparedness";
 import { SOURCES, EnsoStatus, Quake } from "@/lib/sources";
+import WatchPoints from "./WatchPoints";
 
 const RISK_LABEL: Record<RiskLevel, string> = {
   low: "ต่ำ",
@@ -77,6 +78,9 @@ export default function Dashboard() {
           <div className="sub">เหตุการณ์จริง แต่กลไกบางส่วนคลาดเคลื่อน</div>
         </div>
       </div>
+
+      {/* ── ความเสี่ยงรายจุด (สด, หลายพื้นที่) ── */}
+      <WatchPoints />
 
       {/* ── ปฏิทินเตรียมตัว 12 เดือน ── */}
       <h2 className="section-title">📅 ปฏิทินเตรียมรับมือ 12 เดือน (มิ.ย. 2026 → พ.ค. 2027)</h2>
